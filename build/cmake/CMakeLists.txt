@@ -158,22 +158,27 @@ if (LZ4_BUILD_LEGACY_LZ4C)
 endif()
 
 # Extra warning flags
-include (CheckCCompilerFlag)
-foreach (flag
-    # GCC-style
-    -Wall
-    -Wextra
-    -Wundef
-    -Wcast-qual
-    -Wcast-align
-    -Wshadow
-    -Wswitch-enum
-    -Wdeclaration-after-statement
-    -Wstrict-prototypes
-    -Wpointer-arith
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(warning_flags
+        -Wall
+        -Wextra
+        -Wundef
+        -Wcast-qual
+        -Wcast-align
+        -Wshadow
+        -Wswitch-enum
+        -Wdeclaration-after-statement
+        -Wstrict-prototypes
+        -Wpointer-arith
+    )
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(warning_flags
+        /W3
+    )
+endif()
 
-    # MSVC-style
-    /W4)
+include (CheckCCompilerFlag)
+foreach (flag IN LISTS ${warning_flags})
   # Because https://gcc.gnu.org/wiki/FAQ#wnowarning
   string(REGEX REPLACE "\\-Wno\\-(.+)" "-W\\1" flag_to_test "${flag}")
   string(REGEX REPLACE "[^a-zA-Z0-9]+" "_" test_name "CFLAG_${flag_to_test}")
