@@ -158,7 +158,7 @@ if (LZ4_BUILD_LEGACY_LZ4C)
 endif()
 
 # Extra warning flags
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(warning_flags
         -Wall
         -Wextra
@@ -171,7 +171,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         -Wstrict-prototypes
         -Wpointer-arith
     )
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(warning_flags
         /W3
     )
